@@ -60,17 +60,16 @@ func TimeHandler(w http.ResponseWriter, r *http.Request) {
     </head>
     <body>
         <script>
-            // 显示电脑当前时间戳转换成北京时间
-            const displayLocalTime = () => {
-                const now = new Date();
-                const localTime = now.getTime() + (now.getTimezoneOffset() * 60000) + (8 * 3600 * 1000); // 转换到北京时间
-                const localDate = new Date(localTime);
-                document.body.innerHTML += "<p>本地电脑时间（北京时间）: " + localDate.toLocaleString() + "</p>";
-            }
-            displayLocalTime();
+            // // 显示电脑当前时间戳转换成北京时间
+            // const displayLocalTime = () => {
+            //     const now = new Date();
+            //     const localTime = now.getTime() + (now.getTimezoneOffset() * 60000) + (8 * 3600 * 1000); // 转换到北京时间
+            //     const localDate = new Date(localTime);
+            //     document.body.innerHTML += "<p>本地电脑时间（北京时间）: " + localDate.toLocaleString() + "</p>";
+            // }
 			document.write("<p>本地电脑时间: " + new Date().toLocaleString() + "</p>");
         </script>
-		<p>淘宝服务器时间（北京时间）: %s</p>
+		<p>淘宝服务器时间（北京时间）: </p>
 
     </body>
     </html>
