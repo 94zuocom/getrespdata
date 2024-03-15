@@ -29,16 +29,18 @@ func TimeHandler(w http.ResponseWriter, r *http.Request) {
                 document.body.innerHTML += "<p>本地电脑时间（北京时间）: " + localDate.toLocaleString() + "</p>";
             }
 
-            // 使用fetch API获取服务器时间并显示
+            // 使用JSONP获取服务器时间并显示
             const displayServerTime = () => {
-                fetch("https://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp")
-                .then(response => response.json())
-                .then(data => {
-                    const serverTime = parseInt(data.data.t);
-                    const date = new Date(serverTime + (8 * 3600 * 1000)); // 转换到北京时间
-                    document.body.innerHTML += "<p>服务器时间（北京时间）: " + date.toLocaleString() + "</p>";
-                })
-                .catch(error => console.error('Error:', error));
+                const script = document.createElement('script');
+                script.src = "https://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp&callback=handleResponse";
+                document.body.appendChild(script);
+            }
+
+            // 定义处理响应的函数
+            window.handleResponse = (response) => {
+                const serverTime = parseInt(response.data.t);
+                const date = new Date(serverTime + (8 * 3600 * 1000)); // 转换到北京时间
+                document.body.innerHTML += "<p>服务器时间（北京时间）: " + date.toLocaleString() + "</p>";
             }
 
             displayLocalTime();
