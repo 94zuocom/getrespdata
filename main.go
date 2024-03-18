@@ -10,6 +10,7 @@ import (
 func main() {
 	http.HandleFunc("/r", p.RequestHandler)
 	http.HandleFunc("/time", p.TimeHandler)
+	http.HandleFunc("/502", p.Status502)
 
 	fmt.Println("Server started at http://localhost:8080")
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
