@@ -12,6 +12,7 @@ func Status502(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		// 写入502状态码
 		w.WriteHeader(http.StatusBadGateway)
+		
 		// 响应体中填充错误信息
 		msg := `<html>
 		<head>
