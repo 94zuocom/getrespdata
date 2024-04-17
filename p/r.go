@@ -19,7 +19,6 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		fmt.Fprintf(w, "<html><head><title>Request Information</title></head><body>")
 		fmt.Fprintf(w, "<h1>Request Information</h1>")
-
 		fmt.Fprintf(w, "<h2>Request Headers:</h2><ul>")
 		for name, headers := range r.Header {
 			// 转换为小写后进行检查
@@ -30,8 +29,8 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		fmt.Fprintf(w, "</ul>")
-
 		fmt.Fprintf(w, "<h2>Request URL:</h2><p>%v</p>", html.EscapeString(r.URL.String()))
+		fmt.Fprintf(w, "<h2>Request Host:</h2><p>%v</p>", html.EscapeString(r.Host))
 		fmt.Fprintf(w, "<h2>Query Parameters:</h2><ul>")
 		query := r.URL.Query()
 		for param, values := range query {
@@ -40,7 +39,6 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		fmt.Fprintf(w, "</ul>")
-
 		if r.Method == "POST" || r.Method == "PUT" {
 			body, err := ioutil.ReadAll(r.Body)
 			if err != nil {
@@ -50,7 +48,6 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 			defer r.Body.Close()
 			fmt.Fprintf(w, "<h2>Request Body:</h2><pre>%v</pre>", html.EscapeString(string(body)))
 		}
-
 		if err := r.ParseMultipartForm(32 << 20); err == nil {
 			files := r.MultipartForm.File["file"]
 			fmt.Fprintf(w, "<h2>Uploaded Files:</h2><ul>")
@@ -67,11 +64,11 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			fmt.Fprintf(w, "</ul>")
 		}
-
 		fmt.Fprintf(w, "</body></html>")
 	} else {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		fmt.Fprintln(w, "Request Information")
+		fmt.Fprintln(w, "Host:",r.Host)
 		for name, headers := range r.Header {
 			// 转换为小写后进行检查
 			if !strings.HasPrefix(strings.ToLower(name), "x-fc") {
