@@ -31,6 +31,8 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "</ul>")
 		fmt.Fprintf(w, "<h2>Request URL:</h2><p>%v</p>", html.EscapeString(r.URL.String()))
 		fmt.Fprintf(w, "<h2>Request Host:</h2><p>%v</p>", html.EscapeString(r.Host))
+		fmt.Fprintf(w, "<h2>Request Method:</h2><p>%v</p>", html.EscapeString(r.Method))
+
 		fmt.Fprintf(w, "<h2>Query Parameters:</h2><ul>")
 		query := r.URL.Query()
 		for param, values := range query {
@@ -69,6 +71,7 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		fmt.Fprintln(w, "Request Information")
 		fmt.Fprintln(w, "Host:",r.Host)
+		fmt.Fprintln(w, "Method:",r.Method)
 		for name, headers := range r.Header {
 			// 转换为小写后进行检查
 			if !strings.HasPrefix(strings.ToLower(name), "x-fc") {
