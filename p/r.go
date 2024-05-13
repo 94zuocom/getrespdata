@@ -3,10 +3,10 @@ package p
 import (
 	"fmt"
 	"html"
-	"io"
+	// "io"
 	"io/ioutil"
 	"net/http"
-	"strconv"
+	// "strconv"
 	"strings"
 )
 
@@ -50,22 +50,22 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 			defer r.Body.Close()
 			fmt.Fprintf(w, "<h2>Request Body:</h2><pre>%v</pre>", html.EscapeString(string(body)))
 		}
-		if err := r.ParseMultipartForm(32 << 20); err == nil {
-			files := r.MultipartForm.File["file"]
-			fmt.Fprintf(w, "<h2>Uploaded Files:</h2><ul>")
-			for _, fileheader := range files {
-				file, err := fileheader.Open()
-				if err != nil {
-					http.Error(w, "Error opening file", http.StatusInternalServerError)
-					return
-				}
-				defer file.Close()
-				fmt.Fprintf(w, "<li>File Name: %s</li>", html.EscapeString(fileheader.Filename))
-				fmt.Fprintf(w, "<li>File Size: %s bytes</li>", strconv.FormatInt(fileheader.Size, 10))
-				io.Copy(ioutil.Discard, file)
-			}
-			fmt.Fprintf(w, "</ul>")
-		}
+		// if err := r.ParseMultipartForm(32 << 20); err == nil {
+		// 	files := r.MultipartForm.File["file"]
+		// 	fmt.Fprintf(w, "<h2>Uploaded Files:</h2><ul>")
+		// 	for _, fileheader := range files {
+		// 		file, err := fileheader.Open()
+		// 		if err != nil {
+		// 			http.Error(w, "Error opening file", http.StatusInternalServerError)
+		// 			return
+		// 		}
+		// 		defer file.Close()
+		// 		fmt.Fprintf(w, "<li>File Name: %s</li>", html.EscapeString(fileheader.Filename))
+		// 		fmt.Fprintf(w, "<li>File Size: %s bytes</li>", strconv.FormatInt(fileheader.Size, 10))
+		// 		io.Copy(ioutil.Discard, file)
+		// 	}
+		// 	fmt.Fprintf(w, "</ul>")
+		// }
 		fmt.Fprintf(w, "</body></html>")
 	} else {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
